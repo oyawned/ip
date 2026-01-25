@@ -29,9 +29,12 @@ public class Ui {
         return scanner.nextLine();
     }
 
-    public void showTaskAdded(String taskDescription) {
+    public void showTaskAdded(Task task, int taskCount) {
         showLine();
-        System.out.println(" added: " + taskDescription);
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + task);
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        System.out.println(" Now you have " + taskCount + " " + taskWord + " in the list.");
         showLine();
     }
 

@@ -33,10 +33,26 @@ public class Sheng {
                     tasks.unmarkTask(unmarkIndex);
                     ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
                     break;
-                case "add":
-                    Task newTask = new Task(input);
-                    tasks.addTask(newTask);
-                    ui.showTaskAdded(input);
+                case "todo":
+                    String todoDesc = Parser.getTodoDescription(input);
+                    Task todoTask = new Todo(todoDesc);
+                    tasks.addTask(todoTask);
+                    ui.showTaskAdded(todoTask, tasks.getTaskCount());
+                    break;
+                case "deadline":
+                    String deadlineDesc = Parser.getDeadlineDescription(input);
+                    String by = Parser.getDeadlineBy(input);
+                    Task deadlineTask = new Deadline(deadlineDesc, by);
+                    tasks.addTask(deadlineTask);
+                    ui.showTaskAdded(deadlineTask, tasks.getTaskCount());
+                    break;
+                case "event":
+                    String eventDesc = Parser.getEventDescription(input);
+                    String from = Parser.getEventFrom(input);
+                    String to = Parser.getEventTo(input);
+                    Task eventTask = new Event(eventDesc, from, to);
+                    tasks.addTask(eventTask);
+                    ui.showTaskAdded(eventTask, tasks.getTaskCount());
                     break;
             }
         }
