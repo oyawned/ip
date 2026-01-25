@@ -34,6 +34,11 @@ public class Sheng {
                         tasks.unmarkTask(unmarkIndex);
                         ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
                         break;
+                    case "delete":
+                        int deleteIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                        Task deletedTask = tasks.deleteTask(deleteIndex);
+                        ui.showTaskDeleted(deletedTask, tasks.getTaskCount());
+                        break;
                     case "todo":
                         String todoDesc = Parser.getTodoDescription(input);
                         Task todoTask = new Todo(todoDesc);

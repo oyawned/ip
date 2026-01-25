@@ -11,6 +11,8 @@ public class Parser {
             return "mark";
         } else if (input.startsWith("unmark ")) {
             return "unmark";
+        } else if (input.startsWith("delete ")) {
+            return "delete";
         } else if (input.startsWith("todo")) {
             if (input.trim().equals("todo")) {
                 throw new ShengException("Oops! You forgot to tell me what todo you want to add! Try: todo <description>");
@@ -36,7 +38,7 @@ public class Parser {
             }
             return "event";
         } else {
-            throw new ShengException("Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, or unmark :)");
+            throw new ShengException("Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, unmark, or delete :)");
         }
     }
 
@@ -53,6 +55,12 @@ public class Parser {
                 String numberStr = input.substring(7).trim();
                 if (numberStr.isEmpty()) {
                     throw new ShengException("Which task would you like to unmark? Try: unmark <number>");
+                }
+                index = Integer.parseInt(numberStr) - 1;
+            } else if (input.startsWith("delete ")) {
+                String numberStr = input.substring(7).trim();
+                if (numberStr.isEmpty()) {
+                    throw new ShengException("Which task would you like to delete? Try: delete <number>");
                 }
                 index = Integer.parseInt(numberStr) - 1;
             } else {

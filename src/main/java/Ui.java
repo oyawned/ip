@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.ArrayList;
 
 public class Ui {
     private static final String LINE = "____________________________________________________________";
@@ -38,11 +39,11 @@ public class Ui {
         showLine();
     }
 
-    public void showTaskList(Task[] tasks) {
+    public void showTaskList(ArrayList<Task> tasks) {
         showLine();
         System.out.println(" Here are the tasks in your list:");
-        for (int i = 0; i < tasks.length; i++) {
-            System.out.println(" " + (i + 1) + "." + tasks[i]);
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println(" " + (i + 1) + "." + tasks.get(i));
         }
         showLine();
     }
@@ -58,6 +59,15 @@ public class Ui {
         showLine();
         System.out.println(" No worries! I've marked this task as not done yet:");
         System.out.println("   " + task);
+        showLine();
+    }
+
+    public void showTaskDeleted(Task task, int taskCount) {
+        showLine();
+        System.out.println(" Okay, I've removed this task:");
+        System.out.println("   " + task);
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        System.out.println(" Now you have " + taskCount + " " + taskWord + " in the list.");
         showLine();
     }
 
