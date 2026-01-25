@@ -16,7 +16,7 @@ Prerequisites: JDK 17, update Intellij to the most recent version.
 1. After that, locate the `src/main/java/Sheng.java` file, right-click it, and choose `Run Sheng.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
    ```
    ____________________________________________________________
-    Hello! I'm Sheng
+    Hello! I'm Sheng!
     What can I do for you?
    ____________________________________________________________
     Bye. Hope to see you again soon!
