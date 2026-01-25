@@ -1,59 +1,125 @@
 public class Parser {
     
-    public static String getCommand(String input) {
+    public static String getCommand(String input) throws ShengException {
+        if (input.trim().isEmpty()) {
+            throw new ShengException("Hey there! I'd love to help, but you didn't tell me what to do :)");
+        }
+        
         if (input.equals("bye") || input.equals("list")) {
             return input;
         } else if (input.startsWith("mark ")) {
             return "mark";
         } else if (input.startsWith("unmark ")) {
             return "unmark";
-        } else if (input.startsWith("todo ")) {
+        } else if (input.startsWith("todo")) {
+            if (input.trim().equals("todo")) {
+                throw new ShengException("Oops! You forgot to tell me what todo you want to add! Try: todo <description>");
+            }
             return "todo";
-        } else if (input.startsWith("deadline ")) {
+        } else if (input.startsWith("deadline")) {
+            if (input.trim().equals("deadline")) {
+                throw new ShengException("Almost there! Don't forget to tell me what the deadline is for! Try: deadline <description> /by <time>");
+            }
+            if (!input.contains("/by")) {
+                throw new ShengException("Hmm, when is this deadline? Please use: deadline <task> /by <time>");
+            }
             return "deadline";
-        } else if (input.startsWith("event ")) {
+        } else if (input.startsWith("event")) {
+            if (input.trim().equals("event")) {
+                throw new ShengException("Exciting! What event do you want to add? Try: event <description> /from <start> /to <end>");
+            }
+            if (!input.contains("/from")) {
+                throw new ShengException("When does this event start? Please use: event <task> /from <start> /to <end>");
+            }
+            if (!input.contains("/to")) {
+                throw new ShengException("When does this event end? Please use: event <task> /from <start> /to <end>");
+            }
             return "event";
         } else {
-            return "unknown";
+            throw new ShengException("Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, or unmark :)");
         }
     }
 
-    public static int getTaskIndex(String input) {
-        if (input.startsWith("mark ")) {
-            return Integer.parseInt(input.substring(5)) - 1;
-        } else if (input.startsWith("unmark ")) {
-            return Integer.parseInt(input.substring(7)) - 1;
+    public static int getTaskIndex(String input, int taskCount) throws ShengException {
+        try {
+            int index;
+            if (input.startsWith("mark ")) {
+                String numberStr = input.substring(5).trim();
+                if (numberStr.isEmpty()) {
+                    throw new ShengException("Which task would you like to mark as done? Try: mark <number>");
+                }
+                index = Integer.parseInt(numberStr) - 1;
+            } else if (input.startsWith("unmark ")) {
+                String numberStr = input.substring(7).trim();
+                if (numberStr.isEmpty()) {
+                    throw new ShengException("Which task would you like to unmark? Try: unmark <number>");
+                }
+                index = Integer.parseInt(numberStr) - 1;
+            } else {
+                return -1;
+            }
+            
+            if (index < 0 || index >= taskCount) {
+                String taskWord = taskCount == 1 ? "task" : "tasks";
+                throw new ShengException("Oops! You only have " + taskCount + " " + taskWord + " in your list!");
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new ShengException("That doesn't look like a number! Please use a number like 1, 2, 3...");
         }
-        return -1;
     }
 
-    public static String getTodoDescription(String input) {
-        return input.substring(5).trim();
+    public static String getTodoDescription(String input) throws ShengException {
+        String description = input.substring(5).trim();
+        if (description.isEmpty()) {
+            throw new ShengException("Oops! You forgot to tell me what the todo is!");
+        }
+        return description;
     }
 
-    public static String getDeadlineDescription(String input) {
+    public static String getDeadlineDescription(String input) throws ShengException {
         int byIndex = input.indexOf("/by");
-        return input.substring(9, byIndex).trim();
+        String description = input.substring(9, byIndex).trim();
+        if (description.isEmpty()) {
+            throw new ShengException("What's the deadline for? Don't forget to add a description!");
+        }
+        return description;
     }
 
-    public static String getDeadlineBy(String input) {
+    public static String getDeadlineBy(String input) throws ShengException {
         int byIndex = input.indexOf("/by");
-        return input.substring(byIndex + 3).trim();
+        String by = input.substring(byIndex + 3).trim();
+        if (by.isEmpty()) {
+            throw new ShengException("When is this deadline? Don't forget to add the time after /by!");
+        }
+        return by;
     }
 
-    public static String getEventDescription(String input) {
+    public static String getEventDescription(String input) throws ShengException {
         int fromIndex = input.indexOf("/from");
-        return input.substring(6, fromIndex).trim();
+        String description = input.substring(6, fromIndex).trim();
+        if (description.isEmpty()) {
+            throw new ShengException("What event are you adding? Don't forget the description!");
+        }
+        return description;
     }
 
-    public static String getEventFrom(String input) {
+    public static String getEventFrom(String input) throws ShengException {
         int fromIndex = input.indexOf("/from");
         int toIndex = input.indexOf("/to");
-        return input.substring(fromIndex + 5, toIndex).trim();
+        String from = input.substring(fromIndex + 5, toIndex).trim();
+        if (from.isEmpty()) {
+            throw new ShengException("When does your event start? Add the time after /from!");
+        }
+        return from;
     }
 
-    public static String getEventTo(String input) {
+    public static String getEventTo(String input) throws ShengException {
         int toIndex = input.indexOf("/to");
-        return input.substring(toIndex + 3).trim();
+        String to = input.substring(toIndex + 3).trim();
+        if (to.isEmpty()) {
+            throw new ShengException("When does your event end? Add the time after /to!");
+        }
+        return to;
     }
 }

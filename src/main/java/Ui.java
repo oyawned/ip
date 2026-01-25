@@ -11,13 +11,13 @@ public class Ui {
     public void showWelcome() {
         showLine();
         System.out.println(" Hello! I'm Sheng!");
-        System.out.println(" What can I do for you?");
+        System.out.println(" What can I do for you today?");
         showLine();
     }
 
     public void showGoodbye() {
         showLine();
-        System.out.println(" Bye. Hope to see you again soon!");
+        System.out.println(" Bye! Hope to see you again soon! Have a great day!");
         showLine();
     }
 
@@ -31,7 +31,7 @@ public class Ui {
 
     public void showTaskAdded(Task task, int taskCount) {
         showLine();
-        System.out.println(" Got it. I've added this task:");
+        System.out.println(" Awesome! I've added this task:");
         System.out.println("   " + task);
         String taskWord = taskCount == 1 ? "task" : "tasks";
         System.out.println(" Now you have " + taskCount + " " + taskWord + " in the list.");
@@ -49,15 +49,21 @@ public class Ui {
 
     public void showTaskMarked(Task task) {
         showLine();
-        System.out.println(" Nice! I've marked this task as done:");
+        System.out.println(" Woohoo! I've marked this task as done:");
         System.out.println("   " + task);
         showLine();
     }
 
     public void showTaskUnmarked(Task task) {
         showLine();
-        System.out.println(" OK, I've marked this task as not done yet:");
+        System.out.println(" No worries! I've marked this task as not done yet:");
         System.out.println("   " + task);
+        showLine();
+    }
+
+    public void showError(String message) {
+        showLine();
+        System.out.println(" " + message);
         showLine();
     }
 

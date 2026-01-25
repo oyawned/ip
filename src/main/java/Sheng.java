@@ -12,48 +12,52 @@ public class Sheng {
         
         boolean isExit = false;
         while (!isExit) {
-            String input = ui.readCommand();
-            String command = Parser.getCommand(input);
-            
-            switch (command) {
-                case "bye":
-                    ui.showGoodbye();
-                    isExit = true;
-                    break;
-                case "list":
-                    ui.showTaskList(tasks.getAllTasks());
-                    break;
-                case "mark":
-                    int markIndex = Parser.getTaskIndex(input);
-                    tasks.markTask(markIndex);
-                    ui.showTaskMarked(tasks.getTask(markIndex));
-                    break;
-                case "unmark":
-                    int unmarkIndex = Parser.getTaskIndex(input);
-                    tasks.unmarkTask(unmarkIndex);
-                    ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
-                    break;
-                case "todo":
-                    String todoDesc = Parser.getTodoDescription(input);
-                    Task todoTask = new Todo(todoDesc);
-                    tasks.addTask(todoTask);
-                    ui.showTaskAdded(todoTask, tasks.getTaskCount());
-                    break;
-                case "deadline":
-                    String deadlineDesc = Parser.getDeadlineDescription(input);
-                    String by = Parser.getDeadlineBy(input);
-                    Task deadlineTask = new Deadline(deadlineDesc, by);
-                    tasks.addTask(deadlineTask);
-                    ui.showTaskAdded(deadlineTask, tasks.getTaskCount());
-                    break;
-                case "event":
-                    String eventDesc = Parser.getEventDescription(input);
-                    String from = Parser.getEventFrom(input);
-                    String to = Parser.getEventTo(input);
-                    Task eventTask = new Event(eventDesc, from, to);
-                    tasks.addTask(eventTask);
-                    ui.showTaskAdded(eventTask, tasks.getTaskCount());
-                    break;
+            try {
+                String input = ui.readCommand();
+                String command = Parser.getCommand(input);
+                
+                switch (command) {
+                    case "bye":
+                        ui.showGoodbye();
+                        isExit = true;
+                        break;
+                    case "list":
+                        ui.showTaskList(tasks.getAllTasks());
+                        break;
+                    case "mark":
+                        int markIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                        tasks.markTask(markIndex);
+                        ui.showTaskMarked(tasks.getTask(markIndex));
+                        break;
+                    case "unmark":
+                        int unmarkIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                        tasks.unmarkTask(unmarkIndex);
+                        ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
+                        break;
+                    case "todo":
+                        String todoDesc = Parser.getTodoDescription(input);
+                        Task todoTask = new Todo(todoDesc);
+                        tasks.addTask(todoTask);
+                        ui.showTaskAdded(todoTask, tasks.getTaskCount());
+                        break;
+                    case "deadline":
+                        String deadlineDesc = Parser.getDeadlineDescription(input);
+                        String by = Parser.getDeadlineBy(input);
+                        Task deadlineTask = new Deadline(deadlineDesc, by);
+                        tasks.addTask(deadlineTask);
+                        ui.showTaskAdded(deadlineTask, tasks.getTaskCount());
+                        break;
+                    case "event":
+                        String eventDesc = Parser.getEventDescription(input);
+                        String from = Parser.getEventFrom(input);
+                        String to = Parser.getEventTo(input);
+                        Task eventTask = new Event(eventDesc, from, to);
+                        tasks.addTask(eventTask);
+                        ui.showTaskAdded(eventTask, tasks.getTaskCount());
+                        break;
+                }
+            } catch (ShengException e) {
+                ui.showError(e.getMessage());
             }
         }
         
