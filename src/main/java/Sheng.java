@@ -14,45 +14,45 @@ public class Sheng {
         while (!isExit) {
             try {
                 String input = ui.readCommand();
-                String command = Parser.getCommand(input);
+                Command command = Parser.getCommand(input);
                 
                 switch (command) {
-                    case "bye":
+                    case BYE:
                         ui.showGoodbye();
                         isExit = true;
                         break;
-                    case "list":
+                    case LIST:
                         ui.showTaskList(tasks.getAllTasks());
                         break;
-                    case "mark":
+                    case MARK:
                         int markIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                         tasks.markTask(markIndex);
                         ui.showTaskMarked(tasks.getTask(markIndex));
                         break;
-                    case "unmark":
+                    case UNMARK:
                         int unmarkIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                         tasks.unmarkTask(unmarkIndex);
                         ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
                         break;
-                    case "delete":
+                    case DELETE:
                         int deleteIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                         Task deletedTask = tasks.deleteTask(deleteIndex);
                         ui.showTaskDeleted(deletedTask, tasks.getTaskCount());
                         break;
-                    case "todo":
+                    case TODO:
                         String todoDesc = Parser.getTodoDescription(input);
                         Task todoTask = new Todo(todoDesc);
                         tasks.addTask(todoTask);
                         ui.showTaskAdded(todoTask, tasks.getTaskCount());
                         break;
-                    case "deadline":
+                    case DEADLINE:
                         String deadlineDesc = Parser.getDeadlineDescription(input);
                         String by = Parser.getDeadlineBy(input);
                         Task deadlineTask = new Deadline(deadlineDesc, by);
                         tasks.addTask(deadlineTask);
                         ui.showTaskAdded(deadlineTask, tasks.getTaskCount());
                         break;
-                    case "event":
+                    case EVENT:
                         String eventDesc = Parser.getEventDescription(input);
                         String from = Parser.getEventFrom(input);
                         String to = Parser.getEventTo(input);

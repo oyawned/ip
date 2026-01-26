@@ -1,23 +1,25 @@
 public class Parser {
     
-    public static String getCommand(String input) throws ShengException {
+    public static Command getCommand(String input) throws ShengException {
         if (input.trim().isEmpty()) {
             throw new ShengException("Hey there! I'd love to help, but you didn't tell me what to do :)");
         }
         
-        if (input.equals("bye") || input.equals("list")) {
-            return input;
+        if (input.equals("bye")) {
+            return Command.BYE;
+        } else if (input.equals("list")) {
+            return Command.LIST;
         } else if (input.startsWith("mark ")) {
-            return "mark";
+            return Command.MARK;
         } else if (input.startsWith("unmark ")) {
-            return "unmark";
+            return Command.UNMARK;
         } else if (input.startsWith("delete ")) {
-            return "delete";
+            return Command.DELETE;
         } else if (input.startsWith("todo")) {
             if (input.trim().equals("todo")) {
                 throw new ShengException("Oops! You forgot to tell me what todo you want to add! Try: todo <description>");
             }
-            return "todo";
+            return Command.TODO;
         } else if (input.startsWith("deadline")) {
             if (input.trim().equals("deadline")) {
                 throw new ShengException("Almost there! Don't forget to tell me what the deadline is for! Try: deadline <description> /by <time>");
@@ -25,10 +27,10 @@ public class Parser {
             if (!input.contains("/by")) {
                 throw new ShengException("Hmm, when is this deadline? Please use: deadline <task> /by <time>");
             }
-            return "deadline";
+            return Command.DEADLINE;
         } else if (input.startsWith("event")) {
             if (input.trim().equals("event")) {
-                throw new ShengException("Exciting! What event do you want to add? Try: event <description> /from <start> /to <end>");
+                throw new ShengException("Exciting! What event do you want to add! Try: event <description> /from <start> /to <end>");
             }
             if (!input.contains("/from")) {
                 throw new ShengException("When does this event start? Please use: event <task> /from <start> /to <end>");
@@ -36,7 +38,7 @@ public class Parser {
             if (!input.contains("/to")) {
                 throw new ShengException("When does this event end? Please use: event <task> /from <start> /to <end>");
             }
-            return "event";
+            return Command.EVENT;
         } else {
             throw new ShengException("Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, unmark, or delete :)");
         }
