@@ -4,11 +4,15 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
     private static final String FILE_PATH = "data/sheng.txt";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private final Path filePath;
 
     public Storage() {
@@ -85,13 +89,24 @@ public class Storage {
                 if (parts.length < 4) {
                     throw new ShengException("Invalid deadline format!");
                 }
-                task = new Deadline(description, parts[3]);
+                try {
+                    LocalDateTime by = LocalDateTime.parse(parts[3], FORMATTER);
+                    task = new Deadline(description, by);
+                } catch (DateTimeParseException e) {
+                    throw new ShengException("Invalid date format! Use: yyyy-MM-dd HHmm");
+                }
                 break;
             case "E":
                 if (parts.length < 5) {
                     throw new ShengException("Invalid event format!");
                 }
-                task = new Event(description, parts[3], parts[4]);
+                try {
+                    LocalDateTime from = LocalDateTime.parse(parts[3], FORMATTER);
+                    LocalDateTime to = LocalDateTime.parse(parts[4], FORMATTER);
+                    task = new Event(description, from, to);
+                } catch (DateTimeParseException e) {
+                    throw new ShengException("Invalid date format! Use: yyyy-MM-dd HHmm");
+                }
                 break;
             default:
                 throw new ShengException("Unknown task type: " + type);
