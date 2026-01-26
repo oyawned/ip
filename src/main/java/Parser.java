@@ -9,10 +9,16 @@ public class Parser {
             return Command.BYE;
         } else if (input.equals("list")) {
             return Command.LIST;
+        } else if (input.equals("mark")) {
+            throw new ShengException("Which task would you like to mark as done? Try: mark <number>");
         } else if (input.startsWith("mark ")) {
             return Command.MARK;
+        } else if (input.equals("unmark")) {
+            throw new ShengException("Which task would you like to unmark? Try: unmark <number>");
         } else if (input.startsWith("unmark ")) {
             return Command.UNMARK;
+        } else if (input.equals("delete")) {
+            throw new ShengException("Which task would you like to delete? Try: delete <number>");
         } else if (input.startsWith("delete ")) {
             return Command.DELETE;
         } else if (input.startsWith("todo")) {
