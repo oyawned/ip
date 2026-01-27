@@ -1,10 +1,21 @@
 public class Sheng {
+    private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
-    public Sheng() {
+    public Sheng(String filePath) {
         ui = new Ui();
-        tasks = new TaskList();
+        storage = new Storage(filePath);
+        try {
+            tasks = new TaskList(storage.load());
+        } catch (Exception e) {
+            ui.showError("Error loading tasks. Starting with empty task list.");
+            tasks = new TaskList();
+        }
+    }
+
+    public Sheng() {
+        this("data/sheng.txt");
     }
 
     public void run() {
@@ -27,22 +38,26 @@ public class Sheng {
                     case MARK:
                         int markIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                         tasks.markTask(markIndex);
+                        storage.save(tasks.getAllTasks());
                         ui.showTaskMarked(tasks.getTask(markIndex));
                         break;
                     case UNMARK:
                         int unmarkIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                         tasks.unmarkTask(unmarkIndex);
+                        storage.save(tasks.getAllTasks());
                         ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
                         break;
                     case DELETE:
                         int deleteIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                         Task deletedTask = tasks.deleteTask(deleteIndex);
+                        storage.save(tasks.getAllTasks());
                         ui.showTaskDeleted(deletedTask, tasks.getTaskCount());
                         break;
                     case TODO:
                         String todoDesc = Parser.getTodoDescription(input);
                         Task todoTask = new Todo(todoDesc);
                         tasks.addTask(todoTask);
+                        storage.save(tasks.getAllTasks());
                         ui.showTaskAdded(todoTask, tasks.getTaskCount());
                         break;
                     case DEADLINE:
@@ -50,6 +65,7 @@ public class Sheng {
                         String by = Parser.getDeadlineBy(input);
                         Task deadlineTask = new Deadline(deadlineDesc, by);
                         tasks.addTask(deadlineTask);
+                        storage.save(tasks.getAllTasks());
                         ui.showTaskAdded(deadlineTask, tasks.getTaskCount());
                         break;
                     case EVENT:
@@ -58,6 +74,7 @@ public class Sheng {
                         String to = Parser.getEventTo(input);
                         Task eventTask = new Event(eventDesc, from, to);
                         tasks.addTask(eventTask);
+                        storage.save(tasks.getAllTasks());
                         ui.showTaskAdded(eventTask, tasks.getTaskCount());
                         break;
                 }
@@ -65,7 +82,6 @@ public class Sheng {
                 ui.showError(e.getMessage());
             }
         }
-        
         ui.close();
     }
 

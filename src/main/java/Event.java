@@ -1,5 +1,6 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Event extends Task {
     protected LocalDateTime from;
@@ -7,10 +8,14 @@ public class Event extends Task {
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
-    public Event(String description, String from, String to) {
+    public Event(String description, String from, String to) throws ShengException {
         super(description);
-        this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
-        this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
+        try {
+            this.from = LocalDateTime.parse(from, INPUT_FORMATTER);
+            this.to = LocalDateTime.parse(to, INPUT_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm (e.g. 2024-02-14 1400)");
+        }
     }
 
     public Event(String description, LocalDateTime from, LocalDateTime to) {

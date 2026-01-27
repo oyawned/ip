@@ -11,12 +11,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Storage {
-    private static final String FILE_PATH = "data/sheng.txt";
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private final Path filePath;
 
+    public Storage(String filePath) {
+        this.filePath = Paths.get(filePath);
+    }
+
     public Storage() {
-        this.filePath = Paths.get(FILE_PATH);
+        this("data/sheng.txt");
     }
 
     public ArrayList<Task> load() {
@@ -93,7 +96,7 @@ public class Storage {
                     LocalDateTime by = LocalDateTime.parse(parts[3], FORMATTER);
                     task = new Deadline(description, by);
                 } catch (DateTimeParseException e) {
-                    throw new ShengException("Invalid date format! Use: yyyy-MM-dd HHmm");
+                    throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm");
                 }
                 break;
             case "E":
@@ -105,7 +108,7 @@ public class Storage {
                     LocalDateTime to = LocalDateTime.parse(parts[4], FORMATTER);
                     task = new Event(description, from, to);
                 } catch (DateTimeParseException e) {
-                    throw new ShengException("Invalid date format! Use: yyyy-MM-dd HHmm");
+                    throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm");
                 }
                 break;
             default:

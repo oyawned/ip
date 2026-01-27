@@ -1,14 +1,19 @@
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class Deadline extends Task {
     protected LocalDateTime by;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
-    public Deadline(String description, String by) {
+    public Deadline(String description, String by) throws ShengException {
         super(description);
-        this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
+        try {
+            this.by = LocalDateTime.parse(by, INPUT_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm (e.g. 2024-02-14 1400)");
+        }
     }
 
     public Deadline(String description, LocalDateTime by) {
