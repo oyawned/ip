@@ -1,3 +1,10 @@
+package sheng.storage;
+
+import sheng.exception.ShengException;
+import sheng.task.Deadline;
+import sheng.task.Event;
+import sheng.task.Task;
+import sheng.task.Todo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;

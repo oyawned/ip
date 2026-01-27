@@ -1,3 +1,5 @@
+package sheng.parser;
+
 public enum Command {
     BYE,
     LIST,

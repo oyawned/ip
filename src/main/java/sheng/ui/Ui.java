@@ -1,3 +1,6 @@
+package sheng.ui;
+
+import sheng.task.Task;
 import java.util.Scanner;
 import java.util.ArrayList;
 

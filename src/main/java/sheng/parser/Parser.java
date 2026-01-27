@@ -1,3 +1,7 @@
+package sheng.parser;
+
+import sheng.exception.ShengException;
+
 public class Parser {
     
     public static Command getCommand(String input) throws ShengException {

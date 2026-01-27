@@ -1,3 +1,16 @@
+package sheng;
+
+import sheng.exception.ShengException;
+import sheng.parser.Command;
+import sheng.parser.Parser;
+import sheng.storage.Storage;
+import sheng.task.Deadline;
+import sheng.task.Event;
+import sheng.task.Task;
+import sheng.task.TaskList;
+import sheng.task.Todo;
+import sheng.ui.Ui;
+
 public class Sheng {
     private Storage storage;
     private TaskList tasks;
