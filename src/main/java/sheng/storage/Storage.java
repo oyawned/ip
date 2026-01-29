@@ -23,6 +23,14 @@ import sheng.task.Todo;
  */
 public class Storage {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
+    private static final int MIN_TASK_PARTS = 3;
+    private static final int MIN_DEADLINE_PARTS = 4;
+    private static final int MIN_EVENT_PARTS = 5;
+    private static final int TASK_TYPE_INDEX = 0;
+    private static final int TASK_DONE_INDEX = 1;
+    private static final int TASK_DESC_INDEX = 2;
+    private static final int TASK_DATETIME_INDEX = 3;
+    private static final int EVENT_TO_INDEX = 4;
     private final Path filePath;
 
     public Storage(String filePath) {
@@ -86,44 +94,44 @@ public class Storage {
     private Task parseTask(String line) throws ShengException {
         String[] parts = line.split(" \\| ");
         
-        if (parts.length < 3) {
+        if (parts.length < MIN_TASK_PARTS) {
             throw new ShengException("Invalid task format!");
         }
         
-        String type = parts[0];
-        boolean isDone = parts[1].equals("1");
-        String description = parts[2];
+        String type = parts[TASK_TYPE_INDEX];
+        boolean isDone = parts[TASK_DONE_INDEX].equals("1");
+        String description = parts[TASK_DESC_INDEX];
         
         Task task;
         switch (type) {
-            case "T":
-                task = new Todo(description);
-                break;
-            case "D":
-                if (parts.length < 4) {
-                    throw new ShengException("Invalid deadline format!");
-                }
-                try {
-                    LocalDateTime by = LocalDateTime.parse(parts[3], FORMATTER);
-                    task = new Deadline(description, by);
-                } catch (DateTimeParseException e) {
-                    throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm");
-                }
-                break;
-            case "E":
-                if (parts.length < 5) {
-                    throw new ShengException("Invalid event format!");
-                }
-                try {
-                    LocalDateTime from = LocalDateTime.parse(parts[3], FORMATTER);
-                    LocalDateTime to = LocalDateTime.parse(parts[4], FORMATTER);
-                    task = new Event(description, from, to);
-                } catch (DateTimeParseException e) {
-                    throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm");
-                }
-                break;
-            default:
-                throw new ShengException("Unknown task type: " + type);
+        case "T":
+            task = new Todo(description);
+            break;
+        case "D":
+            if (parts.length < MIN_DEADLINE_PARTS) {
+                throw new ShengException("Invalid deadline format!");
+            }
+            try {
+                LocalDateTime by = LocalDateTime.parse(parts[TASK_DATETIME_INDEX], FORMATTER);
+                task = new Deadline(description, by);
+            } catch (DateTimeParseException e) {
+                throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm");
+            }
+            break;
+        case "E":
+            if (parts.length < MIN_EVENT_PARTS) {
+                throw new ShengException("Invalid event format!");
+            }
+            try {
+                LocalDateTime from = LocalDateTime.parse(parts[TASK_DATETIME_INDEX], FORMATTER);
+                LocalDateTime to = LocalDateTime.parse(parts[EVENT_TO_INDEX], FORMATTER);
+                task = new Event(description, from, to);
+            } catch (DateTimeParseException e) {
+                throw new ShengException("Invalid date format! Please use: yyyy-MM-dd HHmm");
+            }
+            break;
+        default:
+            throw new ShengException("Unknown task type: " + type);
         }
         
         if (isDone) {
