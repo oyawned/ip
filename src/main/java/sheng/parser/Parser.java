@@ -3,6 +3,15 @@ package sheng.parser;
 import sheng.exception.ShengException;
 
 public class Parser {
+    private static final int MARK_PREFIX_LENGTH = 5;
+    private static final int UNMARK_PREFIX_LENGTH = 7;
+    private static final int DELETE_PREFIX_LENGTH = 7;
+    private static final int TODO_PREFIX_LENGTH = 5;
+    private static final int DEADLINE_PREFIX_LENGTH = 9;
+    private static final int EVENT_PREFIX_LENGTH = 6;
+    private static final int BY_OFFSET = 3;
+    private static final int FROM_OFFSET = 5;
+    private static final int TO_OFFSET = 3;
     
     public static Command getCommand(String input) throws ShengException {
         if (input.trim().isEmpty()) {
@@ -58,19 +67,19 @@ public class Parser {
         try {
             int index;
             if (input.startsWith("mark ")) {
-                String numberStr = input.substring(5).trim();
+                String numberStr = input.substring(MARK_PREFIX_LENGTH).trim();
                 if (numberStr.isEmpty()) {
                     throw new ShengException("Which task would you like to mark as done? Try: mark <number>");
                 }
                 index = Integer.parseInt(numberStr) - 1;
             } else if (input.startsWith("unmark ")) {
-                String numberStr = input.substring(7).trim();
+                String numberStr = input.substring(UNMARK_PREFIX_LENGTH).trim();
                 if (numberStr.isEmpty()) {
                     throw new ShengException("Which task would you like to unmark? Try: unmark <number>");
                 }
                 index = Integer.parseInt(numberStr) - 1;
             } else if (input.startsWith("delete ")) {
-                String numberStr = input.substring(7).trim();
+                String numberStr = input.substring(DELETE_PREFIX_LENGTH).trim();
                 if (numberStr.isEmpty()) {
                     throw new ShengException("Which task would you like to delete? Try: delete <number>");
                 }
@@ -90,7 +99,7 @@ public class Parser {
     }
 
     public static String getTodoDescription(String input) throws ShengException {
-        String description = input.substring(5).trim();
+        String description = input.substring(TODO_PREFIX_LENGTH).trim();
         if (description.isEmpty()) {
             throw new ShengException("Oops! You forgot to tell me what the todo is!");
         }
@@ -99,7 +108,7 @@ public class Parser {
 
     public static String getDeadlineDescription(String input) throws ShengException {
         int byIndex = input.indexOf("/by");
-        String description = input.substring(9, byIndex).trim();
+        String description = input.substring(DEADLINE_PREFIX_LENGTH, byIndex).trim();
         if (description.isEmpty()) {
             throw new ShengException("What's the deadline for? Don't forget to add a description!");
         }
@@ -108,7 +117,7 @@ public class Parser {
 
     public static String getDeadlineBy(String input) throws ShengException {
         int byIndex = input.indexOf("/by");
-        String by = input.substring(byIndex + 3).trim();
+        String by = input.substring(byIndex + BY_OFFSET).trim();
         if (by.isEmpty()) {
             throw new ShengException("When is this deadline? Don't forget to add the time after /by!");
         }
@@ -117,7 +126,7 @@ public class Parser {
 
     public static String getEventDescription(String input) throws ShengException {
         int fromIndex = input.indexOf("/from");
-        String description = input.substring(6, fromIndex).trim();
+        String description = input.substring(EVENT_PREFIX_LENGTH, fromIndex).trim();
         if (description.isEmpty()) {
             throw new ShengException("What event are you adding? Don't forget the description!");
         }
@@ -127,7 +136,7 @@ public class Parser {
     public static String getEventFrom(String input) throws ShengException {
         int fromIndex = input.indexOf("/from");
         int toIndex = input.indexOf("/to");
-        String from = input.substring(fromIndex + 5, toIndex).trim();
+        String from = input.substring(fromIndex + FROM_OFFSET, toIndex).trim();
         if (from.isEmpty()) {
             throw new ShengException("When does your event start? Add the time after /from!");
         }
@@ -136,7 +145,7 @@ public class Parser {
 
     public static String getEventTo(String input) throws ShengException {
         int toIndex = input.indexOf("/to");
-        String to = input.substring(toIndex + 3).trim();
+        String to = input.substring(toIndex + TO_OFFSET).trim();
         if (to.isEmpty()) {
             throw new ShengException("When does your event end? Add the time after /to!");
         }
