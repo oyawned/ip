@@ -1,5 +1,7 @@
 package sheng;
 
+import java.util.ArrayList;
+
 import sheng.exception.ShengException;
 import sheng.parser.Command;
 import sheng.parser.Parser;
@@ -89,6 +91,11 @@ public class Sheng {
                         tasks.addTask(eventTask);
                         storage.save(tasks.getAllTasks());
                         ui.showTaskAdded(eventTask, tasks.getTaskCount());
+                        break;
+                    case FIND:
+                        String keyword = Parser.getFindKeyword(input);
+                        ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
+                        ui.showMatchingTasks(matchingTasks);
                         break;
                 }
             } catch (ShengException e) {

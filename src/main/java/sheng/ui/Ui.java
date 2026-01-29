@@ -1,8 +1,9 @@
 package sheng.ui;
 
-import sheng.task.Task;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
+
+import sheng.task.Task;
 
 public class Ui {
     private static final String LINE = "____________________________________________________________";
@@ -77,6 +78,19 @@ public class Ui {
     public void showError(String message) {
         showLine();
         System.out.println(" " + message);
+        showLine();
+    }
+
+    public void showMatchingTasks(ArrayList<Task> tasks) {
+        showLine();
+        if (tasks.isEmpty()) {
+            System.out.println(" No matching tasks found!");
+        } else {
+            System.out.println(" Here are the matching tasks in your list:");
+            for (int i = 0; i < tasks.size(); i++) {
+                System.out.println(" " + (i + 1) + "." + tasks.get(i));
+            }
+        }
         showLine();
     }
 

@@ -49,6 +49,11 @@ public class Parser {
                 throw new ShengException("When does this event end? Please use: event <task> /from <start> /to <end>");
             }
             return Command.EVENT;
+        } else if (input.startsWith("find")) {
+            if (input.trim().equals("find")) {
+                throw new ShengException("What would you like to find? Try: find <keyword>");
+            }
+            return Command.FIND;
         } else {
             throw new ShengException("Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, unmark, or delete :)");
         }
@@ -141,5 +146,13 @@ public class Parser {
             throw new ShengException("When does your event end? Add the time after /to!");
         }
         return to;
+    }
+
+    public static String getFindKeyword(String input) throws ShengException {
+        String keyword = input.substring(5).trim();
+        if (keyword.isEmpty()) {
+            throw new ShengException("What would you like to find? Please provide a keyword!");
+        }
+        return keyword;
     }
 }
