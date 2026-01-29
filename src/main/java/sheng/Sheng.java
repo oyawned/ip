@@ -11,11 +11,19 @@ import sheng.task.TaskList;
 import sheng.task.Todo;
 import sheng.ui.Ui;
 
+/**
+ * Main class for the Sheng chatbot application.
+ */
 public class Sheng {
     private Storage storage;
     private TaskList tasks;
     private Ui ui;
 
+    /**
+     * Constructs a Sheng instance with the specified file path.
+     *
+     * @param filePath The path to the data file.
+     */
     public Sheng(String filePath) {
         ui = new Ui();
         storage = new Storage(filePath);
@@ -27,10 +35,16 @@ public class Sheng {
         }
     }
 
+    /**
+     * Constructs a Sheng instance with default file path.
+     */
     public Sheng() {
         this("data/sheng.txt");
     }
 
+    /**
+     * Runs the main chatbot loop.
+     */
     public void run() {
         ui.showWelcome();
         

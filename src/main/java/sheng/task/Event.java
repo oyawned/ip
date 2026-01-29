@@ -1,16 +1,28 @@
 package sheng.task;
 
-import sheng.exception.ShengException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import sheng.exception.ShengException;
+
+/**
+ * Represents a task with a start and end time.
+ */
 public class Event extends Task {
     protected LocalDateTime from;
     protected LocalDateTime to;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
+    /**
+     * Constructs an Event task.
+     *
+     * @param description The task description.
+     * @param from The start date and time.
+     * @param to The end date and time.
+     * @throws ShengException If the date format is invalid.
+     */
     public Event(String description, String from, String to) throws ShengException {
         super(description);
         try {

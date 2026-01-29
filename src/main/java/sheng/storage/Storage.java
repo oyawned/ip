@@ -1,10 +1,5 @@
 package sheng.storage;
 
-import sheng.exception.ShengException;
-import sheng.task.Deadline;
-import sheng.task.Event;
-import sheng.task.Task;
-import sheng.task.Todo;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +12,15 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
 
+import sheng.exception.ShengException;
+import sheng.task.Deadline;
+import sheng.task.Event;
+import sheng.task.Task;
+import sheng.task.Todo;
+
+/**
+ * Handles loading and saving tasks to a file.
+ */
 public class Storage {
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private final Path filePath;

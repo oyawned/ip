@@ -2,8 +2,18 @@ package sheng.parser;
 
 import sheng.exception.ShengException;
 
+/**
+ * Parses user input and extracts commands and parameters.
+ */
 public class Parser {
     
+    /**
+     * Parses the user input and returns the corresponding command.
+     *
+     * @param input The user input string.
+     * @return The parsed Command.
+     * @throws ShengException If the input is invalid.
+     */
     public static Command getCommand(String input) throws ShengException {
         if (input.trim().isEmpty()) {
             throw new ShengException("Hey there! I'd love to help, but you didn't tell me what to do :)");

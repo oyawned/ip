@@ -1,13 +1,20 @@
 package sheng.ui;
 
-import sheng.task.Task;
-import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.Scanner;
 
+import sheng.task.Task;
+
+/**
+ * Handles user interface interactions.
+ */
 public class Ui {
     private static final String LINE = "____________________________________________________________";
     private Scanner scanner;
 
+    /**
+     * Constructs a Ui object.
+     */
     public Ui() {
         this.scanner = new Scanner(System.in);
     }

@@ -1,7 +1,15 @@
 package sheng.task;
 
+/**
+ * Represents a todo task.
+ */
 public class Todo extends Task {
     
+    /**
+     * Constructs a Todo task.
+     *
+     * @param description The task description.
+     */
     public Todo(String description) {
         super(description);
     }

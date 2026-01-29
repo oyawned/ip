@@ -1,15 +1,26 @@
 package sheng.task;
 
-import sheng.exception.ShengException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import sheng.exception.ShengException;
+
+/**
+ * Represents a task with a deadline.
+ */
 public class Deadline extends Task {
     protected LocalDateTime by;
     private static final DateTimeFormatter INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HHmm");
     private static final DateTimeFormatter OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("MMM dd yyyy, hh:mm a");
 
+    /**
+     * Constructs a Deadline task.
+     *
+     * @param description The task description.
+     * @param by The deadline date and time.
+     * @throws ShengException If the date format is invalid.
+     */
     public Deadline(String description, String by) throws ShengException {
         super(description);
         try {
