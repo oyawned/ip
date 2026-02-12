@@ -24,6 +24,7 @@ public class Parser {
      * @throws ShengException If the input is invalid.
      */
     public static Command getCommand(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         if (input.trim().isEmpty()) {
             throw new ShengException("Hey there! I'd love to help, but you didn't tell me what to do :)");
         }
@@ -107,6 +108,7 @@ public class Parser {
                 String taskWord = taskCount == 1 ? "task" : "tasks";
                 throw new ShengException("Oops! You only have " + taskCount + " " + taskWord + " in your list!");
             }
+            assert index >= 0 && index < taskCount : "Index should be valid after range check";
             return index;
         } catch (NumberFormatException e) {
             throw new ShengException("That doesn't look like a number! Please use a number like 1, 2, 3...");
@@ -114,64 +116,84 @@ public class Parser {
     }
 
     public static String getTodoDescription(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         String description = input.substring(TODO_PREFIX_LENGTH).trim();
         if (description.isEmpty()) {
             throw new ShengException("Oops! You forgot to tell me what the todo is!");
         }
+        assert !description.isEmpty() : "Description should not be empty after validation";
         return description;
     }
 
     public static String getDeadlineDescription(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         int byIndex = input.indexOf("/by");
+        assert byIndex != -1 : "Input should contain /by marker";
         String description = input.substring(DEADLINE_PREFIX_LENGTH, byIndex).trim();
         if (description.isEmpty()) {
             throw new ShengException("What's the deadline for? Don't forget to add a description!");
         }
+        assert !description.isEmpty() : "Description should not be empty after validation";
         return description;
     }
 
     public static String getDeadlineBy(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         int byIndex = input.indexOf("/by");
+        assert byIndex != -1 : "Input should contain /by marker";
         String by = input.substring(byIndex + BY_OFFSET).trim();
         if (by.isEmpty()) {
             throw new ShengException("When is this deadline? Don't forget to add the time after /by!");
         }
+        assert !by.isEmpty() : "By string should not be empty after validation";
         return by;
     }
 
     public static String getEventDescription(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         int fromIndex = input.indexOf("/from");
+        assert fromIndex != -1 : "Input should contain /from marker";
         String description = input.substring(EVENT_PREFIX_LENGTH, fromIndex).trim();
         if (description.isEmpty()) {
             throw new ShengException("What event are you adding? Don't forget the description!");
         }
+        assert !description.isEmpty() : "Description should not be empty after validation";
         return description;
     }
 
     public static String getEventFrom(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         int fromIndex = input.indexOf("/from");
         int toIndex = input.indexOf("/to");
+        assert fromIndex != -1 : "Input should contain /from marker";
+        assert toIndex != -1 : "Input should contain /to marker";
         String from = input.substring(fromIndex + FROM_OFFSET, toIndex).trim();
         if (from.isEmpty()) {
             throw new ShengException("When does your event start? Add the time after /from!");
         }
+        assert !from.isEmpty() : "From string should not be empty after validation";
         return from;
     }
 
     public static String getEventTo(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         int toIndex = input.indexOf("/to");
+        assert toIndex != -1 : "Input should contain /to marker";
         String to = input.substring(toIndex + TO_OFFSET).trim();
         if (to.isEmpty()) {
             throw new ShengException("When does your event end? Add the time after /to!");
         }
+        assert !to.isEmpty() : "To string should not be empty after validation";
         return to;
     }
 
     public static String getFindKeyword(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         String keyword = input.substring(5).trim();
         if (keyword.isEmpty()) {
             throw new ShengException("What would you like to find? Please provide a keyword!");
         }
+        assert !keyword.isEmpty() : "Keyword should not be empty after validation";
         return keyword;
     }
 }

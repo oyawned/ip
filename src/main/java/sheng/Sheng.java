@@ -27,6 +27,7 @@ public class Sheng {
      * @param filePath The path to the data file.
      */
     public Sheng(String filePath) {
+        assert filePath != null : "File path cannot be null";
         ui = new Ui();
         storage = new Storage(filePath);
         try {
@@ -35,6 +36,9 @@ public class Sheng {
             ui.showError("Error loading tasks. Starting with empty task list.");
             tasks = new TaskList();
         }
+        assert ui != null : "UI should be initialized";
+        assert storage != null : "Storage should be initialized";
+        assert tasks != null : "Tasks should be initialized";
     }
 
     /**
@@ -66,24 +70,28 @@ public class Sheng {
                     break;
                 case MARK:
                     int markIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                    assert markIndex >= 0 && markIndex < tasks.getTaskCount() : "Mark index should be valid";
                     tasks.markTask(markIndex);
                     storage.save(tasks.getAllTasks());
                     ui.showTaskMarked(tasks.getTask(markIndex));
                     break;
                 case UNMARK:
                     int unmarkIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                    assert unmarkIndex >= 0 && unmarkIndex < tasks.getTaskCount() : "Unmark index should be valid";
                     tasks.unmarkTask(unmarkIndex);
                     storage.save(tasks.getAllTasks());
                     ui.showTaskUnmarked(tasks.getTask(unmarkIndex));
                     break;
                 case DELETE:
                     int deleteIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                    assert deleteIndex >= 0 && deleteIndex < tasks.getTaskCount() : "Delete index should be valid";
                     Task deletedTask = tasks.deleteTask(deleteIndex);
                     storage.save(tasks.getAllTasks());
                     ui.showTaskDeleted(deletedTask, tasks.getTaskCount());
                     break;
                 case TODO:
                     String todoDesc = Parser.getTodoDescription(input);
+                    assert todoDesc != null && !todoDesc.isEmpty() : "Todo description should be valid";
                     Task todoTask = new Todo(todoDesc);
                     tasks.addTask(todoTask);
                     storage.save(tasks.getAllTasks());
@@ -92,6 +100,8 @@ public class Sheng {
                 case DEADLINE:
                     String deadlineDesc = Parser.getDeadlineDescription(input);
                     String by = Parser.getDeadlineBy(input);
+                    assert deadlineDesc != null && !deadlineDesc.isEmpty() : "Deadline description should be valid";
+                    assert by != null && !by.isEmpty() : "Deadline by should be valid";
                     Task deadlineTask = new Deadline(deadlineDesc, by);
                     tasks.addTask(deadlineTask);
                     storage.save(tasks.getAllTasks());
@@ -101,6 +111,9 @@ public class Sheng {
                     String eventDesc = Parser.getEventDescription(input);
                     String from = Parser.getEventFrom(input);
                     String to = Parser.getEventTo(input);
+                    assert eventDesc != null && !eventDesc.isEmpty() : "Event description should be valid";
+                    assert from != null && !from.isEmpty() : "Event from should be valid";
+                    assert to != null && !to.isEmpty() : "Event to should be valid";
                     Task eventTask = new Event(eventDesc, from, to);
                     tasks.addTask(eventTask);
                     storage.save(tasks.getAllTasks());
@@ -108,6 +121,7 @@ public class Sheng {
                     break;
                     case FIND:
                         String keyword = Parser.getFindKeyword(input);
+                        assert keyword != null && !keyword.isEmpty() : "Find keyword should be valid";
                         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
                         ui.showMatchingTasks(matchingTasks);
                         break;
@@ -148,22 +162,26 @@ public class Sheng {
                 return sb.toString().trim();
             case MARK:
                 int markIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                assert markIndex >= 0 && markIndex < tasks.getTaskCount() : "Mark index should be valid";
                 tasks.markTask(markIndex);
                 storage.save(tasks.getAllTasks());
                 return "Nice! I've marked this task as done:\n  " + tasks.getTask(markIndex);
             case UNMARK:
                 int unmarkIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                assert unmarkIndex >= 0 && unmarkIndex < tasks.getTaskCount() : "Unmark index should be valid";
                 tasks.unmarkTask(unmarkIndex);
                 storage.save(tasks.getAllTasks());
                 return "OK, I've marked this task as not done yet:\n  " + tasks.getTask(unmarkIndex);
             case DELETE:
                 int deleteIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
+                assert deleteIndex >= 0 && deleteIndex < tasks.getTaskCount() : "Delete index should be valid";
                 Task deletedTask = tasks.deleteTask(deleteIndex);
                 storage.save(tasks.getAllTasks());
                 return "Noted. I've removed this task:\n  " + deletedTask 
                         + "\nNow you have " + tasks.getTaskCount() + " tasks in the list.";
             case TODO:
                 String todoDesc = Parser.getTodoDescription(input);
+                assert todoDesc != null && !todoDesc.isEmpty() : "Todo description should be valid";
                 Task todoTask = new Todo(todoDesc);
                 tasks.addTask(todoTask);
                 storage.save(tasks.getAllTasks());
@@ -172,6 +190,8 @@ public class Sheng {
             case DEADLINE:
                 String deadlineDesc = Parser.getDeadlineDescription(input);
                 String by = Parser.getDeadlineBy(input);
+                assert deadlineDesc != null && !deadlineDesc.isEmpty() : "Deadline description should be valid";
+                assert by != null && !by.isEmpty() : "Deadline by should be valid";
                 Task deadlineTask = new Deadline(deadlineDesc, by);
                 tasks.addTask(deadlineTask);
                 storage.save(tasks.getAllTasks());
@@ -181,6 +201,9 @@ public class Sheng {
                 String eventDesc = Parser.getEventDescription(input);
                 String from = Parser.getEventFrom(input);
                 String to = Parser.getEventTo(input);
+                assert eventDesc != null && !eventDesc.isEmpty() : "Event description should be valid";
+                assert from != null && !from.isEmpty() : "Event from should be valid";
+                assert to != null && !to.isEmpty() : "Event to should be valid";
                 Task eventTask = new Event(eventDesc, from, to);
                 tasks.addTask(eventTask);
                 storage.save(tasks.getAllTasks());
@@ -188,6 +211,7 @@ public class Sheng {
                         + "\nNow you have " + tasks.getTaskCount() + " tasks in the list.";
             case FIND:
                 String keyword = Parser.getFindKeyword(input);
+                assert keyword != null && !keyword.isEmpty() : "Find keyword should be valid";
                 ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
                 if (matchingTasks.isEmpty()) {
                     return "No matching tasks found.";
