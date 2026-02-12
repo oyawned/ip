@@ -35,6 +35,7 @@ public class Storage {
     private final Path filePath;
 
     public Storage(String filePath) {
+        assert filePath != null : "File path cannot be null";
         this.filePath = Paths.get(filePath);
     }
 
@@ -73,10 +74,12 @@ public class Storage {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
         
+        assert tasks != null : "Task list should never be null";
         return tasks;
     }
 
     public void save(ArrayList<Task> tasks) {
+        assert tasks != null : "Tasks list cannot be null";
         try {
             File directory = filePath.getParent().toFile();
             if (!directory.exists()) {
@@ -94,11 +97,13 @@ public class Storage {
     }
 
     private Task parseTask(String line) throws ShengException {
+        assert line != null : "Line to parse cannot be null";
         String[] parts = line.split(" \\| ");
         
         if (parts.length < MIN_TASK_PARTS) {
             throw new ShengException("Invalid task format!");
         }
+        assert parts.length >= MIN_TASK_PARTS : "Parts array should have minimum length after validation";
         
         String type = parts[TASK_TYPE_INDEX];
         boolean isDone = parts[TASK_DONE_INDEX].equals("1");

@@ -15,6 +15,7 @@ public class TaskList {
      * @param tasks The list of tasks.
      */
     public TaskList(ArrayList<Task> tasks) {
+        assert tasks != null : "Tasks list cannot be null";
         this.tasks = tasks;
     }
 
@@ -31,10 +32,12 @@ public class TaskList {
      * @param task The task to add.
      */
     public void addTask(Task task) {
+        assert task != null : "Task to add cannot be null";
         tasks.add(task);
     }
 
     public Task getTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         return tasks.get(index);
     }
 
@@ -43,14 +46,17 @@ public class TaskList {
     }
 
     public void markTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         tasks.get(index).markAsDone();
     }
 
     public void unmarkTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         tasks.get(index).markAsNotDone();
     }
 
     public Task deleteTask(int index) {
+        assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         return tasks.remove(index);
     }
 
@@ -62,5 +68,13 @@ public class TaskList {
         return tasks.stream()
                 .filter(task -> task.getDescription().contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new));
+        assert keyword != null : "Search keyword cannot be null";
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
     }
 }

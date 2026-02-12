@@ -105,4 +105,95 @@ public class Ui {
     public void close() {
         scanner.close();
     }
+
+    // Formatting methods for GUI responses
+
+    /**
+     * Formats a goodbye message.
+     *
+     * @return Formatted goodbye message.
+     */
+    public String formatGoodbyeMessage() {
+        return "Bye! Hope to see you again soon! Have a great day!";
+    }
+
+    /**
+     * Formats the task list for display.
+     *
+     * @param tasks The list of tasks.
+     * @return Formatted task list string.
+     */
+    public String formatTaskList(ArrayList<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return "You have no tasks in your list!";
+        }
+        StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append((i + 1)).append(". ").append(tasks.get(i)).append("\n");
+        }
+        return sb.toString().trim();
+    }
+
+    /**
+     * Formats a message for marking a task.
+     *
+     * @param task The task that was marked.
+     * @return Formatted message.
+     */
+    public String formatTaskMarked(Task task) {
+        return "Woohoo! I've marked this task as done:\n  " + task;
+    }
+
+    /**
+     * Formats a message for unmarking a task.
+     *
+     * @param task The task that was unmarked.
+     * @return Formatted message.
+     */
+    public String formatTaskUnmarked(Task task) {
+        return "No worries! I've marked this task as not done yet:\n  " + task;
+    }
+
+    /**
+     * Formats a message for deleting a task.
+     *
+     * @param task The task that was deleted.
+     * @param taskCount The remaining number of tasks.
+     * @return Formatted message.
+     */
+    public String formatTaskDeleted(Task task, int taskCount) {
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        return "Noted. I've removed this task:\n  " + task
+                + "\nNow you have " + taskCount + " " + taskWord + " in the list.";
+    }
+
+    /**
+     * Formats a message for adding a task.
+     *
+     * @param task The task that was added.
+     * @param taskCount The total number of tasks.
+     * @return Formatted message.
+     */
+    public String formatTaskAdded(Task task, int taskCount) {
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        return "Awesome! I've added this task:\n  " + task
+                + "\nNow you have " + taskCount + " " + taskWord + " in the list.";
+    }
+
+    /**
+     * Formats the list of matching tasks.
+     *
+     * @param tasks The list of matching tasks.
+     * @return Formatted matching tasks string.
+     */
+    public String formatMatchingTasks(ArrayList<Task> tasks) {
+        if (tasks.isEmpty()) {
+            return "No matching tasks found!";
+        }
+        StringBuilder sb = new StringBuilder("Here are the matching tasks in your list:\n");
+        for (int i = 0; i < tasks.size(); i++) {
+            sb.append((i + 1)).append(". ").append(tasks.get(i)).append("\n");
+        }
+        return sb.toString().trim();
+    }
 }
