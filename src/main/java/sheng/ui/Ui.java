@@ -2,6 +2,8 @@ package sheng.ui;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import sheng.task.Task;
 
@@ -52,9 +54,9 @@ public class Ui {
     public void showTaskList(ArrayList<Task> tasks) {
         showLine();
         System.out.println(" Here are the tasks in your list:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println(" " + (i + 1) + "." + tasks.get(i));
-        }
+        AtomicInteger counter = new AtomicInteger(1);
+        tasks.stream()
+                .forEach(task -> System.out.println(" " + counter.getAndIncrement() + "." + task));
         showLine();
     }
 
@@ -93,9 +95,9 @@ public class Ui {
             System.out.println(" No matching tasks found!");
         } else {
             System.out.println(" Here are the matching tasks in your list:");
-            for (int i = 0; i < tasks.size(); i++) {
-                System.out.println(" " + (i + 1) + "." + tasks.get(i));
-            }
+            AtomicInteger counter = new AtomicInteger(1);
+            tasks.stream()
+                    .forEach(task -> System.out.println(" " + counter.getAndIncrement() + "." + task));
         }
         showLine();
     }
