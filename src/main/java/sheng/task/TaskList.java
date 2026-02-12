@@ -1,6 +1,7 @@
 package sheng.task;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 /**
  * Manages a list of tasks.
@@ -64,6 +65,9 @@ public class TaskList {
     }
 
     public ArrayList<Task> findTasks(String keyword) {
+        return tasks.stream()
+                .filter(task -> task.getDescription().contains(keyword))
+                .collect(Collectors.toCollection(ArrayList::new));
         assert keyword != null : "Search keyword cannot be null";
         ArrayList<Task> matchingTasks = new ArrayList<>();
         for (Task task : tasks) {

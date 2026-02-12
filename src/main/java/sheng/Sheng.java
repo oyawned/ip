@@ -1,6 +1,8 @@
 package sheng;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 import sheng.exception.ShengException;
 import sheng.parser.Command;
@@ -156,11 +158,11 @@ public class Sheng {
                 if (allTasks.isEmpty()) {
                     return "You have no tasks in your list.";
                 }
-                StringBuilder sb = new StringBuilder("Here are the tasks in your list:\n");
-                for (int i = 0; i < allTasks.size(); i++) {
-                    sb.append((i + 1)).append(". ").append(allTasks.get(i)).append("\n");
-                }
-                return sb.toString().trim();
+                AtomicInteger listCounter = new AtomicInteger(1);
+                return "Here are the tasks in your list:\n" +
+                        allTasks.stream()
+                                .map(task -> listCounter.getAndIncrement() + ". " + task)
+                                .collect(Collectors.joining("\n"));
             case MARK:
                 int markIndex = Parser.getTaskIndex(input, tasks.getTaskCount());
                 assert markIndex >= 0 && markIndex < tasks.getTaskCount() : "Mark index should be valid";
@@ -217,11 +219,11 @@ public class Sheng {
                 if (matchingTasks.isEmpty()) {
                     return "No matching tasks found.";
                 }
-                StringBuilder findSb = new StringBuilder("Here are the matching tasks in your list:\n");
-                for (int i = 0; i < matchingTasks.size(); i++) {
-                    findSb.append((i + 1)).append(". ").append(matchingTasks.get(i)).append("\n");
-                }
-                return findSb.toString().trim();
+                AtomicInteger findCounter = new AtomicInteger(1);
+                return "Here are the matching tasks in your list:\n" +
+                        matchingTasks.stream()
+                                .map(task -> findCounter.getAndIncrement() + ". " + task)
+                                .collect(Collectors.joining("\n"));
             default:
                 return "I don't understand that command.";
             }

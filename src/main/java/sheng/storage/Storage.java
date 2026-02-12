@@ -11,6 +11,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import sheng.exception.ShengException;
 import sheng.task.Deadline;
@@ -58,16 +59,17 @@ public class Storage {
             }
             
             List<String> lines = Files.readAllLines(filePath);
-            for (String line : lines) {
-                try {
-                    Task task = parseTask(line);
-                    if (task != null) {
-                        tasks.add(task);
-                    }
-                } catch (Exception e) {
-                    System.out.println("Warning: Skipping corrupted line: " + line);
-                }
-            }
+            tasks = lines.stream()
+                    .map(line -> {
+                        try {
+                            return parseTask(line);
+                        } catch (Exception e) {
+                            System.out.println("Warning: Skipping corrupted line: " + line);
+                            return null;
+                        }
+                    })
+                    .filter(task -> task != null)
+                    .collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
             System.out.println("Error loading tasks: " + e.getMessage());
         }
