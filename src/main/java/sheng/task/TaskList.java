@@ -65,16 +65,16 @@ public class TaskList {
     }
 
     public ArrayList<Task> findTasks(String keyword) {
+        assert keyword != null : "Search keyword cannot be null";
         return tasks.stream()
                 .filter(task -> task.getDescription().contains(keyword))
                 .collect(Collectors.toCollection(ArrayList::new));
-        assert keyword != null : "Search keyword cannot be null";
-        ArrayList<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getDescription().contains(keyword)) {
-                matchingTasks.add(task);
-            }
-        }
-        return matchingTasks;
+    }
+
+    /**
+     * Clears all tasks from the list.
+     */
+    public void clearAllTasks() {
+        tasks.clear();
     }
 }

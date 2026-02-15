@@ -16,6 +16,7 @@ public class Parser {
     private static final String COMMAND_DEADLINE = "deadline";
     private static final String COMMAND_EVENT = "event";
     private static final String COMMAND_FIND = "find";
+    private static final String COMMAND_ARCHIVE = "archive";
     
     // Delimiters
     private static final String DELIMITER_BY = "/by";
@@ -36,7 +37,7 @@ public class Parser {
     
     // Error messages
     private static final String ERROR_EMPTY_INPUT = "Hey there! I'd love to help, but you didn't tell me what to do :)";
-    private static final String ERROR_UNKNOWN_COMMAND = "Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, unmark, delete, or find :)";
+    private static final String ERROR_UNKNOWN_COMMAND = "Hmm, I'm not sure what you mean! Try: todo, deadline, event, list, mark, unmark, delete, find, or archive :)";
     private static final String ERROR_MARK_NO_NUMBER = "Which task would you like to mark as done? Try: mark <number>";
     private static final String ERROR_UNMARK_NO_NUMBER = "Which task would you like to unmark? Try: unmark <number>";
     private static final String ERROR_DELETE_NO_NUMBER = "Which task would you like to delete? Try: delete <number>";
@@ -65,13 +66,11 @@ public class Parser {
      * @throws ShengException If the input is invalid.
      */
     public static Command getCommand(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         String trimmedInput = input.trim();
         
         if (trimmedInput.isEmpty()) {
             throw new ShengException(ERROR_EMPTY_INPUT);
-        assert input != null : "Input cannot be null";
-        if (input.trim().isEmpty()) {
-            throw new ShengException("Hey there! I'd love to help, but you didn't tell me what to do :)");
         }
         
         if (trimmedInput.equals(COMMAND_BYE)) {
@@ -108,6 +107,10 @@ public class Parser {
         
         if (trimmedInput.startsWith(COMMAND_FIND)) {
             return parseFindCommand(trimmedInput);
+        }
+        
+        if (trimmedInput.equals(COMMAND_ARCHIVE)) {
+            return Command.ARCHIVE;
         }
         
         throw new ShengException(ERROR_UNKNOWN_COMMAND);
@@ -176,34 +179,6 @@ public class Parser {
             String numberStr = extractTaskNumber(input);
             int index = Integer.parseInt(numberStr) - 1;
             validateTaskIndex(index, taskCount);
-            int index;
-            if (input.startsWith("mark ")) {
-                String numberStr = input.substring(MARK_PREFIX_LENGTH).trim();
-                if (numberStr.isEmpty()) {
-                    throw new ShengException("Which task would you like to mark as done? Try: mark <number>");
-                }
-                index = Integer.parseInt(numberStr) - 1;
-            } else if (input.startsWith("unmark ")) {
-                String numberStr = input.substring(UNMARK_PREFIX_LENGTH).trim();
-                if (numberStr.isEmpty()) {
-                    throw new ShengException("Which task would you like to unmark? Try: unmark <number>");
-                }
-                index = Integer.parseInt(numberStr) - 1;
-            } else if (input.startsWith("delete ")) {
-                String numberStr = input.substring(DELETE_PREFIX_LENGTH).trim();
-                if (numberStr.isEmpty()) {
-                    throw new ShengException("Which task would you like to delete? Try: delete <number>");
-                }
-                index = Integer.parseInt(numberStr) - 1;
-            } else {
-                return -1;
-            }
-            
-            if (index < 0 || index >= taskCount) {
-                String taskWord = taskCount == 1 ? "task" : "tasks";
-                throw new ShengException("Oops! You only have " + taskCount + " " + taskWord + " in your list!");
-            }
-            assert index >= 0 && index < taskCount : "Index should be valid after range check";
             return index;
         } catch (NumberFormatException e) {
             throw new ShengException(ERROR_INVALID_NUMBER);
@@ -251,9 +226,8 @@ public class Parser {
     }
 
     public static String getDeadlineDescription(String input) throws ShengException {
-        int byIndex = input.indexOf(DELIMITER_BY);
         assert input != null : "Input cannot be null";
-        int byIndex = input.indexOf("/by");
+        int byIndex = input.indexOf(DELIMITER_BY);
         assert byIndex != -1 : "Input should contain /by marker";
         String description = input.substring(DEADLINE_PREFIX_LENGTH, byIndex).trim();
         if (description.isEmpty()) {
@@ -264,9 +238,8 @@ public class Parser {
     }
 
     public static String getDeadlineBy(String input) throws ShengException {
-        int byIndex = input.indexOf(DELIMITER_BY);
         assert input != null : "Input cannot be null";
-        int byIndex = input.indexOf("/by");
+        int byIndex = input.indexOf(DELIMITER_BY);
         assert byIndex != -1 : "Input should contain /by marker";
         String by = input.substring(byIndex + BY_OFFSET).trim();
         if (by.isEmpty()) {
@@ -277,9 +250,8 @@ public class Parser {
     }
 
     public static String getEventDescription(String input) throws ShengException {
-        int fromIndex = input.indexOf(DELIMITER_FROM);
         assert input != null : "Input cannot be null";
-        int fromIndex = input.indexOf("/from");
+        int fromIndex = input.indexOf(DELIMITER_FROM);
         assert fromIndex != -1 : "Input should contain /from marker";
         String description = input.substring(EVENT_PREFIX_LENGTH, fromIndex).trim();
         if (description.isEmpty()) {
@@ -290,11 +262,9 @@ public class Parser {
     }
 
     public static String getEventFrom(String input) throws ShengException {
+        assert input != null : "Input cannot be null";
         int fromIndex = input.indexOf(DELIMITER_FROM);
         int toIndex = input.indexOf(DELIMITER_TO);
-        assert input != null : "Input cannot be null";
-        int fromIndex = input.indexOf("/from");
-        int toIndex = input.indexOf("/to");
         assert fromIndex != -1 : "Input should contain /from marker";
         assert toIndex != -1 : "Input should contain /to marker";
         String from = input.substring(fromIndex + FROM_OFFSET, toIndex).trim();
@@ -306,9 +276,8 @@ public class Parser {
     }
 
     public static String getEventTo(String input) throws ShengException {
-        int toIndex = input.indexOf(DELIMITER_TO);
         assert input != null : "Input cannot be null";
-        int toIndex = input.indexOf("/to");
+        int toIndex = input.indexOf(DELIMITER_TO);
         assert toIndex != -1 : "Input should contain /to marker";
         String to = input.substring(toIndex + TO_OFFSET).trim();
         if (to.isEmpty()) {
@@ -319,9 +288,8 @@ public class Parser {
     }
 
     public static String getFindKeyword(String input) throws ShengException {
-        String keyword = input.substring(FIND_PREFIX_LENGTH).trim();
         assert input != null : "Input cannot be null";
-        String keyword = input.substring(5).trim();
+        String keyword = input.substring(FIND_PREFIX_LENGTH).trim();
         if (keyword.isEmpty()) {
             throw new ShengException(ERROR_FIND_NO_KEYWORD);
         }

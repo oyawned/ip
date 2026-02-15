@@ -196,4 +196,32 @@ public class Ui {
         }
         return sb.toString().trim();
     }
+
+    /**
+     * Formats a message for archiving tasks.
+     *
+     * @param archiveFileName The name of the archive file.
+     * @param taskCount The number of tasks archived.
+     * @return Formatted message.
+     */
+    public String formatArchiveComplete(String archiveFileName, int taskCount) {
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        return "All done! I've archived " + taskCount + " " + taskWord 
+                + " to " + archiveFileName + "\nYour task list is now empty. Ready for a fresh start!";
+    }
+
+    /**
+     * Shows a message for archiving tasks in console mode.
+     *
+     * @param archiveFileName The name of the archive file.
+     * @param taskCount The number of tasks archived.
+     */
+    public void showArchiveComplete(String archiveFileName, int taskCount) {
+        showLine();
+        String taskWord = taskCount == 1 ? "task" : "tasks";
+        System.out.println(" All done! I've archived " + taskCount + " " + taskWord + " to:");
+        System.out.println("   " + archiveFileName);
+        System.out.println(" Your task list is now empty. Ready for a fresh start!");
+        showLine();
+    }
 }

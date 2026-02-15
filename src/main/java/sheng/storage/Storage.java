@@ -147,4 +147,36 @@ public class Storage {
         
         return task;
     }
+
+    /**
+     * Archives all tasks to a timestamped file and returns the archive file name.
+     *
+     * @param tasks The list of tasks to archive.
+     * @return The name of the archive file.
+     * @throws IOException If archiving fails.
+     */
+    public String archiveAll(ArrayList<Task> tasks) throws IOException {
+        assert tasks != null : "Tasks list cannot be null";
+        
+        // Create archive filename with timestamp
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter archiveFormatter = DateTimeFormatter.ofPattern("yyyyMMdd_HHmmss");
+        String archiveName = "archive_" + now.format(archiveFormatter) + ".txt";
+        Path archivePath = filePath.getParent().resolve(archiveName);
+        
+        // Create directory if needed
+        File directory = archivePath.getParent().toFile();
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        
+        // Write all tasks to archive file
+        FileWriter writer = new FileWriter(archivePath.toFile());
+        for (Task task : tasks) {
+            writer.write(task.toFileFormat() + System.lineSeparator());
+        }
+        writer.close();
+        
+        return archiveName;
+    }
 }
