@@ -35,6 +35,17 @@ public class MainWindow extends AnchorPane {
     /** Injects the Sheng instance */
     public void setSheng(Sheng s) {
         sheng = s;
+        showWelcomeMessage();
+    }
+    
+    /**
+     * Displays a welcome message when the application starts.
+     */
+    private void showWelcomeMessage() {
+        String welcome = "Hello! I'm Sheng!\nWhat can I do for you today?";
+        dialogContainer.getChildren().add(
+            DialogBox.getShengDialog(welcome, shengImage)
+        );
     }
 
     /**
@@ -44,10 +55,21 @@ public class MainWindow extends AnchorPane {
     @FXML
     private void handleUserInput() {
         String input = userInput.getText();
+        if (input.trim().isEmpty()) {
+            return;
+        }
+        
         String response = sheng.getResponse(input);
+        
+        // Check if response is an error (contains common error indicators)
+        boolean isError = response.contains("Oops") || response.contains("Error") 
+                || response.contains("Invalid") || response.contains("Hmm")
+                || response.contains("forgot") || response.contains("doesn't look");
+        
         dialogContainer.getChildren().addAll(
                 DialogBox.getUserDialog(input, userImage),
-                DialogBox.getShengDialog(response, shengImage)
+                isError ? DialogBox.getErrorDialog(response, shengImage) 
+                        : DialogBox.getShengDialog(response, shengImage)
         );
         userInput.clear();
         

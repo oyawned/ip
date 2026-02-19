@@ -25,6 +25,7 @@ import sheng.task.Task;
 import sheng.task.TaskList;
 import sheng.task.Todo;
 import sheng.task.Deadline;
+import sheng.exception.ShengException;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,7 +46,7 @@ public class ArchiveTest {
     }
 
     @Test
-    public void testArchiveWithTasks() throws IOException {
+    public void testArchiveWithTasks() throws IOException, ShengException {
         // Add some tasks
         taskList.addTask(new Todo("Read book"));
         taskList.addTask(new Todo("Write essay"));
