@@ -258,6 +258,14 @@ public class Sheng {
         return ui.formatTaskAdded(task, tasks.getTaskCount());
     }
 
+    /**
+     * Handles the archive command by saving all tasks to a timestamped file
+     * and clearing the current task list.
+     * AI-assisted: GitHub Copilot helped with:
+     * 1. Error handling strategy using try-catch with ShengException
+     * 2. Suggesting to check for empty list before archiving
+     * 3. Recommending the proper order: archive → clear → save
+     */
     private String handleArchiveCommand() throws ShengException {
         int archivedCount = tasks.getTaskCount();
         if (archivedCount == 0) {

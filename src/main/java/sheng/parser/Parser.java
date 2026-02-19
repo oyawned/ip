@@ -109,6 +109,8 @@ public class Parser {
             return parseFindCommand(trimmedInput);
         }
         
+        // AI-assisted: Copilot suggested using equals() instead of startsWith()
+        // for archive command since it doesn't take parameters
         if (trimmedInput.equals(COMMAND_ARCHIVE)) {
             return Command.ARCHIVE;
         }

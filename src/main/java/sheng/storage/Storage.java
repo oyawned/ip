@@ -150,6 +150,10 @@ public class Storage {
 
     /**
      * Archives all tasks to a timestamped file and returns the archive file name.
+     * AI-assisted: GitHub Copilot helped design this method by:
+     * 1. Suggesting the use of DateTimeFormatter for creating timestamped filenames
+     * 2. Recommending the archive_YYYYMMDD_HHMMSS.txt naming convention
+     * 3. Providing the file writing logic consistent with existing save() method
      *
      * @param tasks The list of tasks to archive.
      * @return The name of the archive file.

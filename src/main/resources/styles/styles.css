@@ -1,7 +1,7 @@
 /* User message styling - right aligned with blue background */
 .user-label {
     -fx-background-color: #2196F3;
-    -fx-text-fill: white;
+    -fx-text-fill: #212121;
     -fx-background-radius: 15px;
     -fx-padding: 12px 15px;
     -fx-font-size: 13px;

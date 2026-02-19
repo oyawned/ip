@@ -73,6 +73,8 @@ public class TaskList {
 
     /**
      * Clears all tasks from the list.
+     * AI-assisted: GitHub Copilot suggested using ArrayList's built-in clear() method
+     * which is more efficient than manually removing items one by one.
      */
     public void clearAllTasks() {
         tasks.clear();

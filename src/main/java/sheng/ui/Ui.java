@@ -199,6 +199,8 @@ public class Ui {
 
     /**
      * Formats a message for archiving tasks.
+     * AI-assisted: GitHub Copilot suggested using plural handling for "task" vs "tasks"
+     * and provided cheerful, user-friendly message phrasing consistent with existing UI style.
      *
      * @param archiveFileName The name of the archive file.
      * @param taskCount The number of tasks archived.
