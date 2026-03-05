@@ -159,6 +159,17 @@ public class Ui {
         scanner.close();
     }
 
+    /**
+     * Displays a message with line separators.
+     *
+     * @param message The message to display.
+     */
+    public void showMessage(String message) {
+        showLine();
+        System.out.println(" " + message.replace("\n", "\n "));
+        showLine();
+    }
+
     // Formatting methods for GUI responses
 
     /**
