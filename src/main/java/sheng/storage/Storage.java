@@ -63,15 +63,15 @@ public class Storage {
                     .map(line -> {
                         try {
                             return parseTask(line);
-                        } catch (Exception e) {
-                            System.out.println("Warning: Skipping corrupted line: " + line);
+                        } catch (ShengException e) {
+                            System.out.println("Warning: Skipping corrupted task - " + e.getMessage());
                             return null;
                         }
                     })
                     .filter(task -> task != null)
                     .collect(Collectors.toCollection(ArrayList::new));
         } catch (IOException e) {
-            System.out.println("Error loading tasks: " + e.getMessage());
+            System.out.println("Error loading tasks from file: " + e.getMessage());
         }
         
         assert tasks != null : "Task list should never be null";
@@ -92,7 +92,7 @@ public class Storage {
             }
             writer.close();
         } catch (IOException e) {
-            System.out.println("Error saving tasks: " + e.getMessage());
+            System.out.println("Error saving tasks to file: " + e.getMessage());
         }
     }
 

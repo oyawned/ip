@@ -1,8 +1,7 @@
 package sheng;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import sheng.exception.ShengException;
 import sheng.parser.Command;
@@ -271,8 +270,8 @@ public class Sheng {
             tasks.clearAllTasks();
             storage.save(tasks.getAllTasks());
             return ui.formatArchiveComplete(archiveFileName, archivedCount);
-        } catch (Exception e) {
-            throw new ShengException("Oops! Failed to archive tasks: " + e.getMessage());
+        } catch (IOException e) {
+            throw new ShengException("Failed to archive tasks to file: " + e.getMessage());
         }
     }
 }
