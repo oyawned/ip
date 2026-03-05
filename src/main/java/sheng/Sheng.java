@@ -204,6 +204,13 @@ public class Sheng {
         }
     }
 
+    /**
+     * Handles the mark command by marking a task as done.
+     *
+     * @param input The user input string.
+     * @return Formatted response message.
+     * @throws ShengException If the task index is invalid.
+     */
     private String handleMarkCommand(String input) throws ShengException {
         int index = Parser.getTaskIndex(input, tasks.getTaskCount());
         tasks.markTask(index);
@@ -211,6 +218,13 @@ public class Sheng {
         return ui.formatTaskMarked(tasks.getTask(index));
     }
 
+    /**
+     * Handles the unmark command by marking a task as not done.
+     *
+     * @param input The user input string.
+     * @return Formatted response message.
+     * @throws ShengException If the task index is invalid.
+     */
     private String handleUnmarkCommand(String input) throws ShengException {
         int index = Parser.getTaskIndex(input, tasks.getTaskCount());
         tasks.unmarkTask(index);
@@ -218,6 +232,13 @@ public class Sheng {
         return ui.formatTaskUnmarked(tasks.getTask(index));
     }
 
+    /**
+     * Handles the delete command by removing a task from the list.
+     *
+     * @param input The user input string.
+     * @return Formatted response message.
+     * @throws ShengException If the task index is invalid.
+     */
     private String handleDeleteCommand(String input) throws ShengException {
         int index = Parser.getTaskIndex(input, tasks.getTaskCount());
         Task deletedTask = tasks.deleteTask(index);
@@ -225,12 +246,26 @@ public class Sheng {
         return ui.formatTaskDeleted(deletedTask, tasks.getTaskCount());
     }
 
+    /**
+     * Handles the todo command by creating and adding a new todo task.
+     *
+     * @param input The user input string.
+     * @return Formatted response message.
+     * @throws ShengException If the todo description is invalid.
+     */
     private String handleTodoCommand(String input) throws ShengException {
         String description = Parser.getTodoDescription(input);
         Task task = new Todo(description);
         return addTaskAndGetResponse(task);
     }
 
+    /**
+     * Handles the deadline command by creating and adding a new deadline task.
+     *
+     * @param input The user input string.
+     * @return Formatted response message.
+     * @throws ShengException If the deadline description or time is invalid.
+     */
     private String handleDeadlineCommand(String input) throws ShengException {
         String description = Parser.getDeadlineDescription(input);
         String by = Parser.getDeadlineBy(input);
@@ -238,6 +273,13 @@ public class Sheng {
         return addTaskAndGetResponse(task);
     }
 
+    /**
+     * Handles the event command by creating and adding a new event task.
+     *
+     * @param input The user input string.
+     * @return Formatted response message.
+     * @throws ShengException If the event description, start time, or end time is invalid.
+     */
     private String handleEventCommand(String input) throws ShengException {
         String description = Parser.getEventDescription(input);
         String from = Parser.getEventFrom(input);
@@ -246,12 +288,25 @@ public class Sheng {
         return addTaskAndGetResponse(task);
     }
 
+    /**
+     * Handles the find command by searching for tasks containing the keyword.
+     *
+     * @param input The user input string.
+     * @return Formatted list of matching tasks.
+     * @throws ShengException If the find keyword is invalid.
+     */
     private String handleFindCommand(String input) throws ShengException {
         String keyword = Parser.getFindKeyword(input);
         ArrayList<Task> matchingTasks = tasks.findTasks(keyword);
         return ui.formatMatchingTasks(matchingTasks);
     }
 
+    /**
+     * Adds a task to the task list, saves to storage, and returns a formatted response.
+     *
+     * @param task The task to add.
+     * @return Formatted response message.
+     */
     private String addTaskAndGetResponse(Task task) {
         tasks.addTask(task);
         storage.save(tasks.getAllTasks());

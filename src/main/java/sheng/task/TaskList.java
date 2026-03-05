@@ -36,34 +36,72 @@ public class TaskList {
         tasks.add(task);
     }
 
+    /**
+     * Gets the task at the specified index.
+     *
+     * @param index The index of the task.
+     * @return The task at the specified index.
+     */
     public Task getTask(int index) {
         assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         return tasks.get(index);
     }
 
+    /**
+     * Returns the number of tasks in the list.
+     *
+     * @return The number of tasks.
+     */
     public int getTaskCount() {
         return tasks.size();
     }
 
+    /**
+     * Marks the task at the specified index as done.
+     *
+     * @param index The index of the task to mark.
+     */
     public void markTask(int index) {
         assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         tasks.get(index).markAsDone();
     }
 
+    /**
+     * Marks the task at the specified index as not done.
+     *
+     * @param index The index of the task to unmark.
+     */
     public void unmarkTask(int index) {
         assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         tasks.get(index).markAsNotDone();
     }
 
+    /**
+     * Deletes the task at the specified index.
+     *
+     * @param index The index of the task to delete.
+     * @return The deleted task.
+     */
     public Task deleteTask(int index) {
         assert index >= 0 && index < tasks.size() : "Index out of bounds: " + index;
         return tasks.remove(index);
     }
 
+    /**
+     * Returns all tasks in the list.
+     *
+     * @return The list of all tasks.
+     */
     public ArrayList<Task> getAllTasks() {
         return tasks;
     }
 
+    /**
+     * Finds all tasks whose descriptions contain the specified keyword.
+     *
+     * @param keyword The keyword to search for.
+     * @return A list of tasks matching the keyword.
+     */
     public ArrayList<Task> findTasks(String keyword) {
         assert keyword != null : "Search keyword cannot be null";
         return tasks.stream()

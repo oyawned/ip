@@ -118,6 +118,13 @@ public class Parser {
         throw new ShengException(ERROR_UNKNOWN_COMMAND);
     }
 
+    /**
+     * Parses the mark command and validates it has a task number.
+     *
+     * @param input The user input string.
+     * @return The MARK command.
+     * @throws ShengException If no task number is provided.
+     */
     private static Command parseMarkCommand(String input) throws ShengException {
         if (input.equals(COMMAND_MARK)) {
             throw new ShengException(ERROR_MARK_NO_NUMBER);
@@ -125,6 +132,13 @@ public class Parser {
         return Command.MARK;
     }
 
+    /**
+     * Parses the unmark command and validates it has a task number.
+     *
+     * @param input The user input string.
+     * @return The UNMARK command.
+     * @throws ShengException If no task number is provided.
+     */
     private static Command parseUnmarkCommand(String input) throws ShengException {
         if (input.equals(COMMAND_UNMARK)) {
             throw new ShengException(ERROR_UNMARK_NO_NUMBER);
@@ -132,6 +146,13 @@ public class Parser {
         return Command.UNMARK;
     }
 
+    /**
+     * Parses the delete command and validates it has a task number.
+     *
+     * @param input The user input string.
+     * @return The DELETE command.
+     * @throws ShengException If no task number is provided.
+     */
     private static Command parseDeleteCommand(String input) throws ShengException {
         if (input.equals(COMMAND_DELETE)) {
             throw new ShengException(ERROR_DELETE_NO_NUMBER);
@@ -139,6 +160,13 @@ public class Parser {
         return Command.DELETE;
     }
 
+    /**
+     * Parses the todo command and validates it has a description.
+     *
+     * @param input The user input string.
+     * @return The TODO command.
+     * @throws ShengException If no description is provided.
+     */
     private static Command parseTodoCommand(String input) throws ShengException {
         if (input.trim().equals(COMMAND_TODO)) {
             throw new ShengException(ERROR_TODO_EMPTY);
@@ -146,6 +174,13 @@ public class Parser {
         return Command.TODO;
     }
 
+    /**
+     * Parses the deadline command and validates it has a description and deadline.
+     *
+     * @param input The user input string.
+     * @return The DEADLINE command.
+     * @throws ShengException If description or deadline marker is missing.
+     */
     private static Command parseDeadlineCommand(String input) throws ShengException {
         if (input.trim().equals(COMMAND_DEADLINE)) {
             throw new ShengException(ERROR_DEADLINE_EMPTY);
@@ -156,6 +191,13 @@ public class Parser {
         return Command.DEADLINE;
     }
 
+    /**
+     * Parses the event command and validates it has description, start and end times.
+     *
+     * @param input The user input string.
+     * @return The EVENT command.
+     * @throws ShengException If description or time markers are missing.
+     */
     private static Command parseEventCommand(String input) throws ShengException {
         if (input.trim().equals(COMMAND_EVENT)) {
             throw new ShengException(ERROR_EVENT_EMPTY);
@@ -169,6 +211,13 @@ public class Parser {
         return Command.EVENT;
     }
 
+    /**
+     * Parses the find command and validates it has a keyword.
+     *
+     * @param input The user input string.
+     * @return The FIND command.
+     * @throws ShengException If no keyword is provided.
+     */
     private static Command parseFindCommand(String input) throws ShengException {
         if (input.trim().equals(COMMAND_FIND)) {
             throw new ShengException(ERROR_FIND_EMPTY);
@@ -176,6 +225,14 @@ public class Parser {
         return Command.FIND;
     }
 
+    /**
+     * Extracts and validates the task index from user input.
+     *
+     * @param input The user input string.
+     * @param taskCount The total number of tasks in the list.
+     * @return The zero-based task index.
+     * @throws ShengException If the index is invalid or out of range.
+     */
     public static int getTaskIndex(String input, int taskCount) throws ShengException {
         try {
             String numberStr = extractTaskNumber(input);
@@ -187,6 +244,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Extracts the task number string from a command.
+     *
+     * @param input The user input string.
+     * @return The task number as a string.
+     * @throws ShengException If no valid task number is found.
+     */
     private static String extractTaskNumber(String input) throws ShengException {
         if (input.startsWith(COMMAND_MARK + " ")) {
             String numberStr = input.substring(MARK_PREFIX_LENGTH).trim();
@@ -210,6 +274,13 @@ public class Parser {
         throw new ShengException(ERROR_INVALID_NUMBER);
     }
 
+    /**
+     * Validates that the task index is within valid range.
+     *
+     * @param index The zero-based task index.
+     * @param taskCount The total number of tasks.
+     * @throws ShengException If the index is out of range.
+     */
     private static void validateTaskIndex(int index, int taskCount) throws ShengException {
         if (index < 0 || index >= taskCount) {
             String taskWord = taskCount == 1 ? "task" : "tasks";
@@ -217,6 +288,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Extracts the description from a todo command.
+     *
+     * @param input The user input string.
+     * @return The todo description.
+     * @throws ShengException If the description is empty.
+     */
     public static String getTodoDescription(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         String description = input.substring(TODO_PREFIX_LENGTH).trim();
@@ -227,6 +305,13 @@ public class Parser {
         return description;
     }
 
+    /**
+     * Extracts the description from a deadline command.
+     *
+     * @param input The user input string.
+     * @return The deadline description.
+     * @throws ShengException If the description is empty.
+     */
     public static String getDeadlineDescription(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         int byIndex = input.indexOf(DELIMITER_BY);
@@ -239,6 +324,13 @@ public class Parser {
         return description;
     }
 
+    /**
+     * Extracts the deadline time from a deadline command.
+     *
+     * @param input The user input string.
+     * @return The deadline time.
+     * @throws ShengException If the deadline time is empty.
+     */
     public static String getDeadlineBy(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         int byIndex = input.indexOf(DELIMITER_BY);
@@ -251,6 +343,13 @@ public class Parser {
         return by;
     }
 
+    /**
+     * Extracts the description from an event command.
+     *
+     * @param input The user input string.
+     * @return The event description.
+     * @throws ShengException If the description is empty.
+     */
     public static String getEventDescription(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         int fromIndex = input.indexOf(DELIMITER_FROM);
@@ -263,6 +362,13 @@ public class Parser {
         return description;
     }
 
+    /**
+     * Extracts the start time from an event command.
+     *
+     * @param input The user input string.
+     * @return The event start time.
+     * @throws ShengException If the start time is empty.
+     */
     public static String getEventFrom(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         int fromIndex = input.indexOf(DELIMITER_FROM);
@@ -277,6 +383,13 @@ public class Parser {
         return from;
     }
 
+    /**
+     * Extracts the end time from an event command.
+     *
+     * @param input The user input string.
+     * @return The event end time.
+     * @throws ShengException If the end time is empty.
+     */
     public static String getEventTo(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         int toIndex = input.indexOf(DELIMITER_TO);
@@ -289,6 +402,13 @@ public class Parser {
         return to;
     }
 
+    /**
+     * Extracts the search keyword from a find command.
+     *
+     * @param input The user input string.
+     * @return The search keyword.
+     * @throws ShengException If the keyword is empty.
+     */
     public static String getFindKeyword(String input) throws ShengException {
         assert input != null : "Input cannot be null";
         String keyword = input.substring(FIND_PREFIX_LENGTH).trim();

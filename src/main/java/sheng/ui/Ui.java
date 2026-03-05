@@ -21,6 +21,9 @@ public class Ui {
         this.scanner = new Scanner(System.in);
     }
 
+    /**
+     * Displays the welcome message when the application starts.
+     */
     public void showWelcome() {
         showLine();
         System.out.println(" Hello! I'm Sheng!");
@@ -28,20 +31,37 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays the goodbye message when the application exits.
+     */
     public void showGoodbye() {
         showLine();
         System.out.println(" Bye! Hope to see you again soon! Have a great day!");
         showLine();
     }
 
+    /**
+     * Displays a horizontal line separator.
+     */
     public void showLine() {
         System.out.println(LINE);
     }
 
+    /**
+     * Reads a command from the user input.
+     *
+     * @return The user's input as a string.
+     */
     public String readCommand() {
         return scanner.nextLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been added.
+     *
+     * @param task The task that was added.
+     * @param taskCount The total number of tasks after adding.
+     */
     public void showTaskAdded(Task task, int taskCount) {
         showLine();
         System.out.println(" Awesome! I've added this task:");
@@ -51,6 +71,11 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays all tasks in the task list.
+     *
+     * @param tasks The list of tasks to display.
+     */
     public void showTaskList(ArrayList<Task> tasks) {
         showLine();
         System.out.println(" Here are the tasks in your list:");
@@ -60,6 +85,11 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been marked as done.
+     *
+     * @param task The task that was marked.
+     */
     public void showTaskMarked(Task task) {
         showLine();
         System.out.println(" Woohoo! I've marked this task as done:");
@@ -67,6 +97,11 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been marked as not done.
+     *
+     * @param task The task that was unmarked.
+     */
     public void showTaskUnmarked(Task task) {
         showLine();
         System.out.println(" No worries! I've marked this task as not done yet:");
@@ -74,6 +109,12 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays a message confirming that a task has been deleted.
+     *
+     * @param task The task that was deleted.
+     * @param taskCount The total number of tasks remaining.
+     */
     public void showTaskDeleted(Task task, int taskCount) {
         showLine();
         System.out.println(" Okay, I've removed this task:");
@@ -83,12 +124,22 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Displays an error message.
+     *
+     * @param message The error message to display.
+     */
     public void showError(String message) {
         showLine();
         System.out.println(" " + message);
         showLine();
     }
 
+    /**
+     * Displays a list of tasks matching a search query.
+     *
+     * @param tasks The list of matching tasks to display.
+     */
     public void showMatchingTasks(ArrayList<Task> tasks) {
         showLine();
         if (tasks.isEmpty()) {
@@ -102,6 +153,9 @@ public class Ui {
         showLine();
     }
 
+    /**
+     * Closes the scanner to free resources.
+     */
     public void close() {
         scanner.close();
     }
